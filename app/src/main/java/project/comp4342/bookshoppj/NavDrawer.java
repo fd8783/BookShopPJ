@@ -1,5 +1,7 @@
 package project.comp4342.bookshoppj;
 
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,12 +19,14 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.util.TypedValue;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class NavDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private ViewPager eventViewer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,10 +68,14 @@ public class NavDrawer extends AppCompatActivity
             radioBut.setButtonDrawable(R.drawable.radio_custom);
             LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
             radioBut.setPadding(dp10ToPx,0,0,dp10ToPx);
+            //disable receive clicking from user
+            radioBut.setEnabled(false);
             radioButList.addView(radioBut);
         }
-        radioBut = (RadioButton) radioButList.getChildAt(0);
-        radioBut.setChecked(true);
+        if (eventCount > 0){
+            radioBut = (RadioButton) radioButList.getChildAt(0);
+            radioBut.setChecked(true);
+        }
 
         eventViewer.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -87,13 +95,14 @@ public class NavDrawer extends AppCompatActivity
             }
         });
 
-        radioButList.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) { //start from 1??? wtf????
-                eventViewer.setCurrentItem(checkedId-1);
-                Toast.makeText(NavDrawer.this, "ck", Toast.LENGTH_SHORT).show();
-            }
-        });
+        //cause lag, don't know why
+//        radioButList.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(RadioGroup group, int checkedId) { //start from 1??? wtf????
+//                eventViewer.setCurrentItem(checkedId-1);
+//                Toast.makeText(NavDrawer.this, "ck", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
     }
 

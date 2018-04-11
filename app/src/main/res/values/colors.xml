@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#b36c15</color>
+    <color name="colorPrimaryDark">#a6610c</color>
     <color name="colorAccent">#FF4081</color>
     <color name="White">#FFFFFF</color>
     <color name="Ivory">#FFFFF0</color>
@@ -39,7 +39,7 @@
     <color name="Linen">#FAF0E6</color>
     <color name="AntiqueWhite">#FAEBD7</color>
     <color name="Salmon">#FA8072</color>
-    <color name="GhostWhite">#F8F8FF</color>
+    <color name="GhostWhite">#fffff0</color>
     <color name="MintCream">#faf8ce</color>
     <color name="WhiteSmoke">#F5F5F5</color>
     <color name="Beige">#F5F5DC</color>
