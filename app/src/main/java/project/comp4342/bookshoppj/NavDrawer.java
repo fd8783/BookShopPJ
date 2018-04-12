@@ -1,11 +1,14 @@
 package project.comp4342.bookshoppj;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,13 +22,23 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.util.TypedValue;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.List;
 
 public class NavDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private ViewPager eventViewer;
+    private RecyclerView newPublishedView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +73,7 @@ public class NavDrawer extends AppCompatActivity
         int eventCount = pageAdapter.getCount();
         final RadioGroup radioButList = findViewById(R.id.radioButList);
 
-        //add radio but into the radio group
+        //add radio button into the radio group
         RadioButton radioBut;
         int dp10ToPx = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,10, getResources().getDisplayMetrics());
         for(int i =0; i<eventCount;i++){
@@ -104,6 +117,47 @@ public class NavDrawer extends AppCompatActivity
 //            }
 //        });
 
+        //end Part of PageViewer
+
+        //Part of newPublished (RecyclerView)
+        //set up the RecyclerView first
+        newPublishedView = findViewById(R.id.newPublished);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        newPublishedView.setLayoutManager(layoutManager);
+        newPublishedView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.HORIZONTAL));
+        newPublishedView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+
+        List<String> imgURLList = new ArrayList<>(), nameList = new ArrayList<>(), priceList = new ArrayList<>(), authorList = new ArrayList<>();
+        JSONArray newPublishData;
+        try{
+            //new GetBookInfoShort(imgURLList).execute().get();
+            newPublishData = new getDataJsonArray().execute("getBookInfoShort.php").get();
+            for (int i =0; i < newPublishData.length();i++){
+                JSONArray getData = newPublishData.getJSONArray(i);
+
+                String urlString = getData.getString(0);
+                urlString = urlString.replace("\\",""); //clear the [", "] and \ (note "\\" means "\")
+                imgURLList.add(urlString);
+
+                String nameString = getData.getString(1);
+                nameList.add(nameString);
+
+                String priceString = getData.getString(2);
+                priceList.add(priceString);
+
+                String authorString = getData.getString(3);
+                authorList.add(authorString);
+            }
+        }catch (Exception e){
+            Log.e("XgetNewPublishedImgURL", e.getMessage());
+        }
+
+
+
+        BookInfoShortAdapter newPublishedAdapter = new BookInfoShortAdapter(imgURLList, nameList, priceList, authorList);
+        newPublishedView.setAdapter(newPublishedAdapter);
+
+        //End Part of newPublished (RecyclerView)
     }
 
     @Override
@@ -161,5 +215,55 @@ public class NavDrawer extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private class GetBookInfoShort extends AsyncTask<String,String,List<String>>{
+        private List<String> urlList = new ArrayList<>(), nameList = new ArrayList<>(), priceList = new ArrayList<>();
+
+        String link = MainActivity.serverURL+"getBookInfoShort.php";
+        //Context context;
+
+        //flag 0 means get and 1 means post.(By default it is get.) *update:didn't use flag here
+        public GetBookInfoShort(List<String> urlList) {
+            this.urlList = urlList;
+            //this.context = context;
+            //currently it should become http://tommyhui.tech/getevent.php
+            //link = context.getString(R.string.serverURL)+link;
+        }
+
+        @Override
+        protected  List<String> doInBackground(String... strings) {
+            try{
+                URL url = new URL(link);
+                URLConnection conn = url.openConnection();
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                //StringBuffer sb = new StringBuffer();
+                String data;
+                JSONObject dataJson;
+                while ((data = reader.readLine()) != null){
+                    if (data.charAt(0) == '['){
+                        //it means it is the json data, not <html>/<body>...
+                        JSONArray getJson = new JSONArray(data);
+                        for (int i =0; i < getJson.length();i++){
+                            String urlString = getJson.getString(i);
+                            urlString = urlString.substring(2,urlString.length()-2).replace("\\",""); //clear the [", "] and \ (note "\\" means "\")
+                            urlList.add(urlString);
+                        }
+                        //Log.e("tgfjdkgjdfkl",urlList.get(0));
+                    }
+                }
+
+                return urlList;
+
+            }catch (Exception e){
+                return null;
+                //return new String ("Excepiton:"+e.getMessage());
+            }
+        }
+
+        protected void onPostExecute(List<String> result){
+            this.urlList = result;
+        }
     }
 }

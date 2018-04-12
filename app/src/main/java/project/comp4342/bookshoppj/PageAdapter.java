@@ -56,8 +56,7 @@ public class PageAdapter extends PagerAdapter {
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         try{
-            //String link = "https://i.imgur.com/uegEhQb.jpg";
-            urlList = new GetEvent(context).execute().get();    //maybe i should use get()
+            urlList = new GetEvent().execute().get();    //maybe i should use get()
 
             count = urlList.size();
             imgBitamp = new Bitmap[count];
@@ -77,9 +76,7 @@ public class PageAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, final int position) {
         View eventlayout = inflater.inflate(R.layout.eventview, null);
         ImageView img = eventlayout.findViewById(R.id.eventImage);
-        //new ImgDownloader(img).execute("https://i.imgur.com/1wBp1Vj.png");
         img.setImageBitmap(imgBitamp[position]);
-        //img.setImageBitmap(bmp);
 
         eventlayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,12 +122,14 @@ public class PageAdapter extends PagerAdapter {
     private class GetEvent extends AsyncTask<String,String,List<String>>{
         private List<String> urlList = new ArrayList<>();
 
-        String link = "http://fd8783.000webhostapp.com/getevent.php";
-        Context context;
+        String link = MainActivity.serverURL+"getevent.php";
+        //Context context;
 
-        //flag 0 means get and 1 means post.(By default it is get.)
-        public GetEvent(Context context) {
-            this.context = context;
+        //flag 0 means get and 1 means post.(By default it is get.) *update:didn't use flag here
+        public GetEvent() {
+            //this.context = context;
+            //currently it should become http://tommyhui.tech/getevent.php
+            //link = context.getString(R.string.serverURL)+link;
         }
 
         @Override
@@ -164,10 +163,10 @@ public class PageAdapter extends PagerAdapter {
             }
 
         }
-
-        protected void onPostExecute(String result){
-            Toast.makeText(context,result,Toast.LENGTH_SHORT);
-        }
+//
+//        protected void onPostExecute(String result){
+//            Toast.makeText(context,result,Toast.LENGTH_SHORT);
+//        }
 
     }
 }

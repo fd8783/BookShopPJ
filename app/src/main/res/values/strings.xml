@@ -6,4 +6,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">it's Settings</string>
+
+    <string name="serverURL">http://tommyhui.tech/</string>
 </resources>

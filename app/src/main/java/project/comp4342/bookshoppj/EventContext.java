@@ -36,7 +36,6 @@ public class EventContext extends AppCompatActivity {
         setContentView(R.layout.activity_event_context);
 
         Toolbar tool = (Toolbar) findViewById(R.id.eventPageToolBar);
-        tool.setLogo(R.mipmap.bookrc);
         tool.setTitle("活動");
         //need to import android.support.v7.widget.Toolbar instead of android.widget.Toolbar
         setSupportActionBar(tool);
@@ -53,7 +52,7 @@ public class EventContext extends AppCompatActivity {
         text = findViewById(R.id.eventDescription);
 
         try{
-            description = new getEventDescription(description).execute(imgURL).get();
+            description = new getEventDescription().execute(imgURL).get();
             new imgdler(img).execute(imgURL).get();
         }
         catch(Exception e){
@@ -105,12 +104,12 @@ public class EventContext extends AppCompatActivity {
     private class getEventDescription extends AsyncTask<String,String,String>{
         private String description;
 
-        String link = "http://fd8783.000webhostapp.com/geteventdescription.php";
+        String link = "geteventdescription.php";
         //Context context;
 
         //flag 0 means get and 1 means post.(By default it is get.)
-        public getEventDescription(String description) {
-            this.description = description;
+        public getEventDescription() {
+            link = MainActivity.serverURL+link;
         }
 
         @Override
@@ -144,10 +143,12 @@ public class EventContext extends AppCompatActivity {
 
                 data = sb.toString().split("<body>")[1];//remove prefix (e.g. <body> tag)
                 data = data.split("<div")[0];//remove prefix (e.g. <div> tag)
+                data = data.split("</body")[0];//remove postfix (e.g. <div> tag)
 
                 return data;
 
             }catch (Exception e){
+                Log.e("getDatabaseContentError",e.getMessage());
                 return null;
                 //return new String ("Excepiton:"+e.getMessage());
             }
