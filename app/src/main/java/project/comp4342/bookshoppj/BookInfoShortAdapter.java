@@ -1,5 +1,6 @@
 package project.comp4342.bookshoppj;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -21,13 +22,18 @@ import java.util.List;
 
 public class BookInfoShortAdapter extends RecyclerView.Adapter<BookInfoShortAdapter.ViewHolder> {
 
+    private Context context;
+    private String priceText = "", authorText = "";
     private List<String> imgURLList, bookNameList, bookPriceList, bookAuthorList;
 
-    public BookInfoShortAdapter(List<String> imgURLList, List<String> bookNameList, List<String> bookPriceList, List<String> bookAuthorList){
+    public BookInfoShortAdapter(Context context, List<String> imgURLList, List<String> bookNameList, List<String> bookPriceList, List<String> bookAuthorList){
         this.imgURLList = imgURLList;
         this.bookNameList = bookNameList;
         this.bookPriceList = bookPriceList;
         this.bookAuthorList = bookAuthorList;
+        this.context = context;
+        priceText = this.context.getResources().getString(R.string.price);
+        authorText = this.context.getResources().getString(R.string.author);
     }
 
     //set up the view
@@ -42,8 +48,8 @@ public class BookInfoShortAdapter extends RecyclerView.Adapter<BookInfoShortAdap
     @Override
     public void onBindViewHolder(BookInfoShortAdapter.ViewHolder holder, final int position) {
         holder.bookName_short.setText(bookNameList.get(position));
-        holder.bookPrice_short.setText("HK$ "+bookPriceList.get(position));
-        holder.bookAuthor_short.setText("作者: "+bookAuthorList.get(position));
+        holder.bookPrice_short.setText(priceText + bookPriceList.get(position));
+        holder.bookAuthor_short.setText(authorText + bookAuthorList.get(position));
         try{
 //            holder.bookImg_short.setImageBitmap(new ImgDownloader().execute(imgURLList.get(position)).get());
             Glide.with(holder.itemView)
@@ -90,4 +96,5 @@ public class BookInfoShortAdapter extends RecyclerView.Adapter<BookInfoShortAdap
             progressBar = itemView.findViewById(R.id.imgLoadingBar);
         }
     }
+
 }

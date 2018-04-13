@@ -1,10 +1,14 @@
 package project.comp4342.bookshoppj;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.util.TypedValue;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -29,6 +34,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -37,8 +43,11 @@ import java.util.List;
 public class NavDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    public SwipeRefreshLayout pageRefresher;
     public ViewPager eventViewer;
     public RecyclerView newPublishedView, bookRecommendView;
+    private boolean firstLoad = true;
+    public Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +74,38 @@ public class NavDrawer extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        //Part of Page Refresher (SwipeRefreshLayout)
+        pageRefresher = findViewById(R.id.mainPageRefresher);
+        pageRefresher.setDistanceToTriggerSync(750);
+        pageRefresher.setColorScheme(
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+        pageRefresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        LoadEventPageViewer();
+                        LoadNewPublishedBook();
+                        LoadBookRecommend();
+                    }
+                });
+                //pageRefresher.setRefreshing(true);    //we don't need to set it ourselves
+                new Handler().postDelayed(new Runnable() {
+                    @Override public void run() {
+                        pageRefresher.setRefreshing(false);
+                    }
+                }, 1000);
+            }
+        });
+        //End Part of Page Refresher (SwipeRefreshLayout)
+
         LoadEventPageViewer();
         LoadNewPublishedBook();
         LoadBookRecommend();
+        firstLoad = false;
     }
 
     public void LoadEventPageViewer(){
@@ -81,15 +119,17 @@ public class NavDrawer extends AppCompatActivity
 
         //add radio button into the radio group
         RadioButton radioBut;
-        int dp10ToPx = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,10, getResources().getDisplayMetrics());
-        for(int i =0; i<eventCount;i++){
-            radioBut = new RadioButton(this);
-            radioBut.setButtonDrawable(R.drawable.radio_custom);
-            LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-            radioBut.setPadding(dp10ToPx,0,0,dp10ToPx);
-            //disable receive clicking from user
-            radioBut.setEnabled(false);
-            radioButList.addView(radioBut);
+        if (firstLoad){
+            int dp10ToPx = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,10, getResources().getDisplayMetrics());
+            for(int i =0; i<eventCount;i++){
+                radioBut = new RadioButton(this);
+                radioBut.setButtonDrawable(R.drawable.radio_custom);
+                LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+                radioBut.setPadding(dp10ToPx,0,0,dp10ToPx);
+                //disable receive clicking from user
+                radioBut.setEnabled(false);
+                radioButList.addView(radioBut);
+            }
         }
         if (eventCount > 0){
             radioBut = (RadioButton) radioButList.getChildAt(0);
@@ -161,7 +201,7 @@ public class NavDrawer extends AppCompatActivity
             Log.e("XgetNewPublishedImgURL", e.getMessage());
         }
 
-        BookInfoShortAdapter newPublishedAdapter = new BookInfoShortAdapter(imgURLList, nameList, priceList, authorList);
+        BookInfoShortAdapter newPublishedAdapter = new BookInfoShortAdapter(context, imgURLList, nameList, priceList, authorList);
         newPublishedView.setAdapter(newPublishedAdapter);
 
         //End Part of newPublished (RecyclerView)
@@ -204,7 +244,7 @@ public class NavDrawer extends AppCompatActivity
 
 
 
-        BookInfoShortAdapter bookRecommendAdapter = new BookInfoShortAdapter(imgURLListBR, nameListBR, priceListBR, authorListBR);
+        BookInfoShortAdapter bookRecommendAdapter = new BookInfoShortAdapter(context, imgURLListBR, nameListBR, priceListBR, authorListBR);
         bookRecommendView.setAdapter(bookRecommendAdapter);
 
         //End Part of bookRecommend (RecyclerView)
@@ -223,7 +263,27 @@ public class NavDrawer extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.nav_drawer, menu);
+        getMenuInflater().inflate(R.menu.nav_drawer, menu);
+        MenuItem searchBut = menu.findItem(R.id.searching);
+        final SearchView searchView = (SearchView) searchBut.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                final Intent intent = new Intent(searchView.getContext(), EventContext.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("ImgURL",query);
+                intent.putExtras(bundle);
+                searchView.getContext().startActivity(intent);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
         return true;
     }
 
@@ -235,7 +295,8 @@ public class NavDrawer extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.searching) {
+            //Toast.makeText(this, "you suck",Toast.LENGTH_SHORT);
             return true;
         }
 

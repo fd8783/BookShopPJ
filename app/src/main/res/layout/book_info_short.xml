@@ -49,7 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="14sp"
-        android:text="$:"
+        android:text="@string/price"
         android:singleLine="true"
         android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"
@@ -66,7 +66,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="14sp"
-        android:text="作者: "
+        android:text="@string/author"
         android:singleLine="true"
         android:layout_marginLeft="6dp"
         />

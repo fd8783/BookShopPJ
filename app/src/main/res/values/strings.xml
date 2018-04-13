@@ -8,4 +8,11 @@
     <string name="action_settings">it's Settings</string>
 
     <string name="serverURL">http://tommyhui.tech/</string>
+
+    <string name="search">go search!</string>
+
+    <string name="publisher">出版社:&#160;</string>
+    <string name="author">作者:&#160;</string>
+    <string name="price">HK$&#160;</string>
+
 </resources>
