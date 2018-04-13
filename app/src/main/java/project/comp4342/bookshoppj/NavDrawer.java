@@ -37,8 +37,8 @@ import java.util.List;
 public class NavDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private ViewPager eventViewer;
-    private RecyclerView newPublishedView;
+    public ViewPager eventViewer;
+    public RecyclerView newPublishedView, bookRecommendView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +65,12 @@ public class NavDrawer extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        LoadEventPageViewer();
+        LoadNewPublishedBook();
+        LoadBookRecommend();
+    }
+
+    public void LoadEventPageViewer(){
         //Part of PagerViewer
         eventViewer = findViewById(R.id.eventViewer);
         PageAdapter pageAdapter = new PageAdapter(this);
@@ -100,7 +106,7 @@ public class NavDrawer extends AppCompatActivity
             public void onPageSelected(int position) {
                 radioButNC = (RadioButton) radioButList.getChildAt(position);
                 radioButNC.setChecked(true);
-                Toast.makeText(NavDrawer.this, "fu", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(NavDrawer.this, "u", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -113,12 +119,14 @@ public class NavDrawer extends AppCompatActivity
 //            @Override
 //            public void onCheckedChanged(RadioGroup group, int checkedId) { //start from 1??? wtf????
 //                eventViewer.setCurrentItem(checkedId-1);
-//                Toast.makeText(NavDrawer.this, "ck", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(NavDrawer.this, "c", Toast.LENGTH_SHORT).show();
 //            }
 //        });
 
         //end Part of PageViewer
+    }
 
+    public void LoadNewPublishedBook(){
         //Part of newPublished (RecyclerView)
         //set up the RecyclerView first
         newPublishedView = findViewById(R.id.newPublished);
@@ -126,6 +134,7 @@ public class NavDrawer extends AppCompatActivity
         newPublishedView.setLayoutManager(layoutManager);
         newPublishedView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.HORIZONTAL));
         newPublishedView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        newPublishedView.getRecycledViewPool().setMaxRecycledViews(0,10);
 
         List<String> imgURLList = new ArrayList<>(), nameList = new ArrayList<>(), priceList = new ArrayList<>(), authorList = new ArrayList<>();
         JSONArray newPublishData;
@@ -152,12 +161,53 @@ public class NavDrawer extends AppCompatActivity
             Log.e("XgetNewPublishedImgURL", e.getMessage());
         }
 
-
-
         BookInfoShortAdapter newPublishedAdapter = new BookInfoShortAdapter(imgURLList, nameList, priceList, authorList);
         newPublishedView.setAdapter(newPublishedAdapter);
 
         //End Part of newPublished (RecyclerView)
+    }
+
+    public void LoadBookRecommend(){
+        //Part of bookRecommend (RecyclerView)
+        //set up the RecyclerView first
+        bookRecommendView = findViewById(R.id.recommandBook);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        bookRecommendView.setLayoutManager(layoutManager);
+        bookRecommendView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.HORIZONTAL));
+        bookRecommendView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        bookRecommendView.getRecycledViewPool().setMaxRecycledViews(0,10);
+
+        List<String> imgURLListBR = new ArrayList<>(), nameListBR = new ArrayList<>(), priceListBR = new ArrayList<>(), authorListBR = new ArrayList<>();
+        JSONArray bookRecommendData;
+        try{
+            //new GetBookInfoShort(imgURLList).execute().get();
+            bookRecommendData = new getDataJsonArray().execute("getBookRecommendShort.php").get();
+            for (int i =0; i < bookRecommendData.length();i++){
+                JSONArray getData = bookRecommendData.getJSONArray(i);
+
+                String urlString = getData.getString(0);
+                urlString = urlString.replace("\\",""); //clear the [", "] and \ (note "\\" means "\")
+                imgURLListBR.add(urlString);
+
+                String nameString = getData.getString(1);
+                nameListBR.add(nameString);
+
+                String priceString = getData.getString(2);
+                priceListBR.add(priceString);
+
+                String authorString = getData.getString(3);
+                authorListBR.add(authorString);
+            }
+        }catch (Exception e){
+            Log.e("XgetBookRecommendImgURL", e.getMessage());
+        }
+
+
+
+        BookInfoShortAdapter bookRecommendAdapter = new BookInfoShortAdapter(imgURLListBR, nameListBR, priceListBR, authorListBR);
+        bookRecommendView.setAdapter(bookRecommendAdapter);
+
+        //End Part of bookRecommend (RecyclerView)
     }
 
     @Override
@@ -173,7 +223,7 @@ public class NavDrawer extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.nav_drawer, menu);
+        //getMenuInflater().inflate(R.menu.nav_drawer, menu);
         return true;
     }
 

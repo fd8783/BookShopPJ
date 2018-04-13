@@ -8,7 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -42,10 +45,14 @@ public class BookInfoShortAdapter extends RecyclerView.Adapter<BookInfoShortAdap
         holder.bookPrice_short.setText("HK$ "+bookPriceList.get(position));
         holder.bookAuthor_short.setText("作者: "+bookAuthorList.get(position));
         try{
-            holder.bookImg_short.setImageBitmap(new ImgDownloader().execute(imgURLList.get(position)).get());
+//            holder.bookImg_short.setImageBitmap(new ImgDownloader().execute(imgURLList.get(position)).get());
+            Glide.with(holder.itemView)
+                    .load(imgURLList.get(position))
+                    .into(holder.bookImg_short);
         }catch (Exception e){
             Log.e("loadNewPublishedImgFail", e.getMessage());
         }
+        holder.setIsRecyclable(false);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,6 +66,7 @@ public class BookInfoShortAdapter extends RecyclerView.Adapter<BookInfoShortAdap
                 }
             }
         });
+        holder.progressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -72,12 +80,14 @@ public class BookInfoShortAdapter extends RecyclerView.Adapter<BookInfoShortAdap
 
         public ImageView bookImg_short;
         public TextView bookName_short, bookPrice_short, bookAuthor_short;
+        public ProgressBar progressBar;
         public ViewHolder(View itemView) {
             super(itemView);
             bookImg_short = itemView.findViewById(R.id.bookImg_short);
             bookName_short = itemView.findViewById(R.id.bookName_short);
             bookPrice_short = itemView.findViewById(R.id.bookPrice_short);
             bookAuthor_short = itemView.findViewById(R.id.bookAuthor_short);
+            progressBar = itemView.findViewById(R.id.imgLoadingBar);
         }
     }
 }

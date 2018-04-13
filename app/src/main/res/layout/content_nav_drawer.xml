@@ -28,7 +28,7 @@
             android:id="@+id/radioButList"
             android:layout_width="wrap_content"
             android:layout_height="15dp"
-            android:gravity="center_horizontal"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <!--<RadioButton-->
@@ -52,6 +52,9 @@
         >
 
         <TextView
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
@@ -59,6 +62,9 @@
             android:layout_marginLeft="10dp"/>
 
         <TextView
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
@@ -72,26 +78,53 @@
         android:id="@+id/newPublished"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/newPublishedBar">
+        app:layout_constraintTop_toBottomOf="@+id/newPublishedBar"
+        >
 
 
     </android.support.v7.widget.RecyclerView>
+
+    <RelativeLayout
+        android:id="@+id/recommandBookBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/newPublished"
+        android:orientation="horizontal"
+        android:background="@color/colorPrimary"
+        >
+
+        <TextView
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="最新推介"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="更多..."
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"/>
+
+    </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recommandBook"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/newPublished">
+        app:layout_constraintTop_toBottomOf="@+id/recommandBookBar"
+        android:paddingBottom="20dp">
 
     </android.support.v7.widget.RecyclerView>
 
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/newPublished"
-        android:orientation="horizontal"
-        >
 
-    </ListView>
 
 </android.support.constraint.ConstraintLayout>

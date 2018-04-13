@@ -1,42 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="140dp"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="130dp"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:focusable="true"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    >
+
+    <ProgressBar
+        android:id="@+id/imgLoadingBar"
+        android:layout_width="100dp"
+        android:layout_height="140dp"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/LightGrey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
+
         android:id="@+id/bookImg_short"
         android:layout_width="120dp"
         android:layout_height="140dp"
-        android:gravity="center_vertical"
-        />
+        android:paddingTop="10dp"
+        android:src="@drawable/ic_menu_camera"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+    <View
+        app:layout_constraintTop_toBottomOf="@+id/bookImg_short"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
     <TextView
+        app:layout_constraintTop_toBottomOf="@id/bookImg_short"
         android:id="@+id/bookName_short"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="14sp"
         android:text="..."
         android:singleLine="true"
+        android:layout_marginLeft="6dp"
 
         />
     <TextView
+        app:layout_constraintTop_toBottomOf="@+id/bookName_short"
         android:id="@+id/bookPrice_short"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="14sp"
         android:text="$:"
         android:singleLine="true"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        android:layout_marginLeft="6dp"
         />
     <View
+        app:layout_constraintTop_toBottomOf="@+id/bookPrice_short"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"/>
     <TextView
+        app:layout_constraintTop_toBottomOf="@+id/bookPrice_short"
         android:id="@+id/bookAuthor_short"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="14sp"
         android:text="作者: "
         android:singleLine="true"
+        android:layout_marginLeft="6dp"
         />
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>
