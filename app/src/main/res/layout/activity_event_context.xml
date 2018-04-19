@@ -10,13 +10,12 @@
         android:id="@+id/eventPageToolBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/BackOnlyBar">
+        android:theme="@style/MyAppMainBar">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/eventPageToolBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:theme ="@style/BackOnlyBar"
             app:logo="@mipmap/bookrc"
             app:titleMarginStart="24dp"
             />

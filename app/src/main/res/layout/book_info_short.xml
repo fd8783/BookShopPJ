@@ -9,15 +9,6 @@
     android:foreground="?android:attr/selectableItemBackground"
     >
 
-    <ProgressBar
-        android:id="@+id/imgLoadingBar"
-        android:layout_width="100dp"
-        android:layout_height="140dp"
-        android:indeterminate="true"
-        android:indeterminateTint="@color/LightGrey"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <ImageView
 
         android:id="@+id/bookImg_short"
@@ -25,6 +16,14 @@
         android:layout_height="140dp"
         android:paddingTop="10dp"
         android:src="@drawable/ic_menu_camera"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+    <ProgressBar
+        android:id="@+id/imgLoadingBar"
+        android:layout_width="100dp"
+        android:layout_height="140dp"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/LightGrey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
     <View

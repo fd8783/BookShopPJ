@@ -24,9 +24,11 @@ public class BookInfoShortAdapter extends RecyclerView.Adapter<BookInfoShortAdap
 
     private Context context;
     private String priceText = "", authorText = "";
-    private List<String> imgURLList, bookNameList, bookPriceList, bookAuthorList;
+    private List<String> IDList, imgURLList, bookNameList, bookPriceList, bookAuthorList;
 
-    public BookInfoShortAdapter(Context context, List<String> imgURLList, List<String> bookNameList, List<String> bookPriceList, List<String> bookAuthorList){
+    public BookInfoShortAdapter(Context context,List<String> IDList, List<String> imgURLList, List<String> bookNameList, List<String> bookPriceList, List<String> bookAuthorList){
+        //ID List only use for pass BookID to next page(detail content page) not for display usage, therefore we don't need to define it in holder
+        this.IDList = IDList;
         this.imgURLList = imgURLList;
         this.bookNameList = bookNameList;
         this.bookPriceList = bookPriceList;

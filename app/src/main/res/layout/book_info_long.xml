@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -16,28 +17,80 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginLeft="10dp"
         />
-    <TextView
-        android:id="@+id/bookName_long"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""/>
+    <ProgressBar
+        android:id="@+id/imgLoadingBar"
+        android:layout_width="100dp"
+        android:layout_height="140dp"
+
+        android:indeterminate="true"
+        android:indeterminateTint="@color/LightGrey"
+        app:layout_constraintRight_toRightOf="@+id/bookImg_long"
+        app:layout_constraintLeft_toLeftOf="@+id/bookImg_long"
+        android:layout_marginLeft="10dp" />
+    <View
+        app:layout_constraintLeft_toRightOf="@+id/bookImg_long"
+        android:layout_width="1dp"
+        android:layout_height="140dp"
+        android:background="@android:color/darker_gray"/>
+
 
     <TextView
-        android:id="@+id/bookAuthor_long"
-        android:layout_width="wrap_content"
+        app:layout_constraintLeft_toRightOf="@+id/bookImg_long"
+        android:id="@+id/bookName_long"
+        android:layout_width="210dp"
         android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:textSize="18sp"
+        android:singleLine="true"
+
+        android:text="@string/bookname"/>
+
+    <TextView
+        app:layout_constraintLeft_toRightOf="@+id/bookImg_long"
+        app:layout_constraintTop_toBottomOf="@+id/bookName_long"
+        android:id="@+id/bookAuthor_long"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:textSize="18sp"
+        android:singleLine="true"
         android:text="@string/author"/>
 
     <TextView
+        app:layout_constraintLeft_toRightOf="@+id/bookImg_long"
+        app:layout_constraintTop_toBottomOf="@+id/bookAuthor_long"
         android:id="@+id/bookPublisher_long"
-        android:layout_width="wrap_content"
+        android:layout_width="210dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="20dp"
+        android:textSize="18sp"
+        android:singleLine="true"
         android:text="@string/publisher"/>
 
     <TextView
+        app:layout_constraintLeft_toRightOf="@+id/bookImg_long"
+        app:layout_constraintTop_toBottomOf="@+id/bookPublisher_long"
         android:id="@+id/bookPrice_long"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="20dp"
+        android:textSize="18sp"
         android:text="@string/price"/>
+
+    <TextView
+        android:id="@+id/bookRating_long"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rating"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bookPrice_long" />
 
 </android.support.constraint.ConstraintLayout>

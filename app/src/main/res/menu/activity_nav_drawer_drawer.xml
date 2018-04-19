@@ -5,35 +5,61 @@
     tools:showIn="navigation_view"
     >
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
-    </group>
-
-    <item android:title="Communicate">
+    <item
+        android:title="@string/user"
+        android:id="@+id/user"
+        >
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:id="@+id/login"
+                android:title="@string/login"
+                android:icon="@drawable/ic_person_black_24dp"
+                android:visible="true"/>
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:id="@+id/register"
+                android:icon="@drawable/ic_person_add_black_24dp"
+                android:title="@string/register"
+                android:visible="true"/>
+            <item
+                android:id="@+id/logout"
+                android:icon="@drawable/ic_person_outline_black_24dp"
+                android:title="@string/logout"
+                android:visible="false"/>
+            <item
+                android:id="@+id/user_info"
+                android:icon="@drawable/ic_info_black_24dp"
+                android:title="@string/user_info"
+                android:visible="false"/>
+        </menu>
+    </item>
+
+    <item android:title="@string/book">
+        <menu>
+            <item
+                android:id="@+id/browse_history"
+                android:icon="@drawable/ic_history_black_24dp"
+                android:title="@string/browse_history" />
+            <item
+                android:id="@+id/new_published"
+                android:icon="@drawable/ic_fiber_new_black_24dp"
+                android:title="@string/new_published" />
+            <item
+                android:id="@+id/book_recommended"
+                android:icon="@drawable/ic_favorite_black_24dp"
+                android:title="@string/book_recommended" />
+        </menu>
+    </item>
+
+    <item android:title="@string/other">
+        <menu>
+            <item
+                android:id="@+id/closest_shop"
+                android:icon="@drawable/ic_location_on_black_24dp"
+                android:title="@string/closest_shop" />
+            <item
+                android:id="@+id/setting"
+                android:icon="@drawable/ic_settings_black_24dp"
+                android:title="@string/settings" />
         </menu>
     </item>
 

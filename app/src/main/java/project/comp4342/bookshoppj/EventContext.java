@@ -109,7 +109,7 @@ public class EventContext extends AppCompatActivity {
 
         //flag 0 means get and 1 means post.(By default it is get.)
         public getEventDescription() {
-            link = MainActivity.serverURL+link;
+            link = MainPage.serverURL+link;
         }
 
         @Override

@@ -122,7 +122,7 @@ public class PageAdapter extends PagerAdapter {
     private class GetEvent extends AsyncTask<String,String,List<String>>{
         private List<String> urlList = new ArrayList<>();
 
-        String link = MainActivity.serverURL+"getevent.php";
+        String link = MainPage.serverURL+"getevent.php";
         //Context context;
 
         //flag 0 means get and 1 means post.(By default it is get.) *update:didn't use flag here
