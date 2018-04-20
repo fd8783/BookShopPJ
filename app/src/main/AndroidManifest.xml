@@ -30,7 +30,10 @@
         <activity android:name=".SettingPage" />
         <activity android:name=".RegiserPage" />
         <activity android:name=".SearchPage" />
-        <activity android:name=".SearchAllPage" />
+        <activity android:name=".BookContext" />
+        <activity android:name=".BrowseHistory" />
+        <activity android:name=".UserInfoPage"/>
+        <activity android:name=".ShoppingCart"/>
 
         <!--<provider android:namSearchSuggestiontion"-->
         <!--android:authorities="com.example.MySuggestionProvider" />-->

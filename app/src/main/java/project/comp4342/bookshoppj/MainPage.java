@@ -6,6 +6,8 @@ import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.database.SQLException;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -44,6 +46,7 @@ import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URL;
@@ -56,6 +59,7 @@ public class MainPage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static String serverURL;
+    public static String currentAccountID;
     public static String currentAccount;
     public static boolean isLogin = false;
     public static BookShopDatabase localDB;
@@ -74,6 +78,7 @@ public class MainPage extends AppCompatActivity
     private View navHead;
     private Menu accountMenu;
     private MenuItem login, register, logout, userInfo;
+    private FloatingActionButton shoppingCartFab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,12 +101,12 @@ public class MainPage extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.shopping_chart);
-        fab.setOnClickListener(new View.OnClickListener() {
+        shoppingCartFab = (FloatingActionButton) findViewById(R.id.shopping_chart);
+        shoppingCartFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(MainPage.this, ShoppingCart.class);
+                startActivity(intent);
             }
         });
 
@@ -375,9 +380,12 @@ public class MainPage extends AppCompatActivity
         } else if (id == R.id.logout) {
             Logout();
         } else if (id == R.id.user_info) {
-
+            StartUserInfoPage();
         } else if (id == R.id.browse_history) {
-
+            if (isLogin)
+                OpenBrowseHistory(MainPage.this);
+            else
+                SetUpLoginPopUp(loginPopUp);
         } else if (id == R.id.new_published) {
             SearchNewPublished(MainPage.this);
         } else if (id == R.id.book_recommended) {
@@ -385,8 +393,13 @@ public class MainPage extends AppCompatActivity
         } else if (id == R.id.closest_shop) {
 
         } else if (id == R.id.setting) {
-            Intent intent = new Intent(this, SettingPage.class);
-            this.startActivity(intent);
+            if (isLogin){
+                Intent intent = new Intent(this, SettingPage.class);
+                this.startActivity(intent);
+            }
+            else{
+                SetUpLoginPopUp(loginPopUp);
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -413,9 +426,10 @@ public class MainPage extends AppCompatActivity
                 accountText = accountInput.getText().toString();
                 passwordText = passwordInput.getText().toString();
                 try{
-                    if (new CheckLogin().execute(accountText, passwordText).get().equals("1"))
+                    if ((Integer.parseInt(new CheckLogin().execute(accountText, passwordText).get())) > 0){
                         popUp.dismiss();
                         Logined(accountText);
+                    }
                 }catch (Exception e){
                     Log.e("checkLoginFail",e.getMessage());
                 }
@@ -446,9 +460,10 @@ public class MainPage extends AppCompatActivity
 //            userPhoto.setImageBitmap(MainActivity.userPhoto);
         try{
             String photoURL = new getUserPhotoURL().execute(accountText).get();
-            Glide.with(navigationView)
-                    .load(photoURL)
-                    .into(userPhoto);
+//            Glide.with(navigationView)
+//                    .load(photoURL)
+//                    .into(userPhoto);
+            new imgdler(userPhoto).execute(photoURL).get();
         }catch (Exception e){
             Log.e("getUserPhotoFail",e.getMessage());
         }
@@ -466,8 +481,13 @@ public class MainPage extends AppCompatActivity
         helloUser.setText(this.getResources().getText(R.string.hi_stranger));
     }
 
+    public void OpenBrowseHistory(Context context){
+        Intent intent = new Intent(context, BrowseHistory.class);
+        context.startActivity(intent);
+    }
+
     public void SearchNewPublished(Context context){
-        final Intent intent = new Intent(context, SearchAllPage.class);
+        final Intent intent = new Intent(context, SearchPage.class);
         Bundle bundle = new Bundle();
         bundle.putString("choice", context.getResources().getString(R.string.search_date_new));
         intent.putExtras(bundle);
@@ -475,7 +495,7 @@ public class MainPage extends AppCompatActivity
     }
 
     public void SearchBookRecommend(Context context){
-        final Intent intent = new Intent(context, SearchAllPage.class);
+        final Intent intent = new Intent(context, SearchPage.class);
         Bundle bundle = new Bundle();
         bundle.putString("choice", context.getResources().getString(R.string.hot));
         intent.putExtras(bundle);
@@ -484,6 +504,11 @@ public class MainPage extends AppCompatActivity
 
     public void StartRegisterPage(){
         Intent intent = new Intent(MainPage.this, RegiserPage.class);
+        startActivity(intent);
+    }
+
+    public void StartUserInfoPage(){
+        Intent intent = new Intent(MainPage.this, UserInfoPage.class);
         startActivity(intent);
     }
 
@@ -561,20 +586,20 @@ public class MainPage extends AppCompatActivity
             //this method will be running on UI thread
 
             pLoading.dismiss();
-            if(result.equals("1"))
+            if(result.equals("-1"))
             {
-                /* Here launching another activity when login successful. If you persist login state
-                use sharedPreferences of Android. and logout button to clear sharedPreferences.
-                 */
-                Toast.makeText(context, "登入成功", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "帳戶或密碼錯誤", Toast.LENGTH_LONG).show();
 
             }else if (result.equals("exception")) {
 
                 Toast.makeText(context, "OOPs! Something went wrong. Connection Problem.", Toast.LENGTH_LONG).show();
 
-            }else {  //not 1
-
-                Toast.makeText(context, "帳戶或密碼錯誤", Toast.LENGTH_LONG).show();
+            }else {  //bookID > 0
+                /* Here launching another activity when login successful. If you persist login state
+                use sharedPreferences of Android. and logout button to clear sharedPreferences.
+                 */
+                currentAccountID = result;
+                Toast.makeText(context, "登入成功", Toast.LENGTH_LONG).show();
 
             }
         }
@@ -631,6 +656,33 @@ public class MainPage extends AppCompatActivity
                 return new String ("exception");
             }
 
+        }
+    }
+
+    private class imgdler extends AsyncTask<String,Void, Bitmap> {
+        ImageView bmImg;
+
+        public imgdler(ImageView img){
+            bmImg=img;
+        }
+
+        protected Bitmap doInBackground(String... urls){
+            String urlGot = urls[0];
+            Bitmap bmp = null;
+
+            try{
+                InputStream in = new URL(urlGot).openStream();
+                bmp = BitmapFactory.decodeStream(in);
+            }
+            catch (Exception e){
+                Log.e("Error getting url",e.getMessage());
+                e.printStackTrace();
+            }
+            return bmp;
+        }
+
+        protected void onPostExecute(Bitmap result){
+            bmImg.setImageBitmap(result);
         }
     }
 }

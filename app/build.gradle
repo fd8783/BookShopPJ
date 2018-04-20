@@ -4,11 +4,12 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "project.comp4342.bookshoppj"
-        minSdkVersion 21
+        minSdkVersion 15
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+//        vectorDrawables.useSupportLibrary true
     }
     buildTypes {
         release {

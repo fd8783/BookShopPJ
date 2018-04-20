@@ -33,7 +33,7 @@ public class BookShopDatabase extends SQLiteOpenHelper{
     @Override
     public void onCreate(android.database.sqlite.SQLiteDatabase db) {
         db.execSQL("CREATE TABLE Shopping_Cart" +
-                "(cartItemNo INTEGER PRIMARY KEY AUTOINCREMENT, bookID INT, amount INT DEFAULT 1, addTime TIMESTAMP DEFAULT (DATETIME ('now', 'localtime')))");
+                "(cartItemNo INTEGER PRIMARY KEY AUTOINCREMENT, addTime TIMESTAMP DEFAULT (DATETIME ('now', 'localtime')), bookID INT, bookImgURL VARCHAR(65536), bookName VARCHAR(1000), bookPrice FLOAT, bookAuthor VARCHAR(3000))");
 
         db.execSQL("CREATE TABLE Search_Record " +
                 "(recordNo INTEGER PRIMARY KEY AUTOINCREMENT, seacrhContent VARCHAR(1000) NOT NULL, searchTime TIMESTAMP DEFAULT (DATETIME ('now', 'localtime')))");
@@ -46,11 +46,22 @@ public class BookShopDatabase extends SQLiteOpenHelper{
         onCreate(db);
     }
 
-    public void InsertShoppingCart(int bookID){
+    public Cursor GetAllShoppingCartItem(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("select bookID, bookImgURL, bookName, bookPrice, bookAuthor from Shopping_Cart",null);
+        return res;
+    }
+
+    public void InsertShoppingCart(int bookID, String bookImgURL, String bookName, float bookPrice, String bookAuthor){
         SQLiteDatabase insertDB = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("bookID", bookID);
+        contentValues.put("bookImgURL", bookImgURL);
+        contentValues.put("bookName", bookName);
+        contentValues.put("bookPrice", bookPrice);
+        contentValues.put("bookAuthor", bookAuthor);
         insertDB.insert("Shopping_Cart",null,contentValues);
+        Log.e("add_toShoppingCart",Integer.toString(getShoppingCartCount()));
     }
 
     public int getShoppingCartCount(){
@@ -59,8 +70,16 @@ public class BookShopDatabase extends SQLiteOpenHelper{
         return dataSet.getCount();
     }
 
+    public boolean isShoppingCartContain(String bookID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "Select cartItemNo from Shopping_Cart where bookID = ?";
+        Cursor dataSet = db.rawQuery(query, new String[] {bookID});
+        return (dataSet.getCount() == 0) ? false : true;
+    }
+
     public void DeleteFromShoppingCart(int bookID){
         this.getWritableDatabase().execSQL("Delete from Shopping_Cart where bookID = "+bookID);
     }
+
 
 }

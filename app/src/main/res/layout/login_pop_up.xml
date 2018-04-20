@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="38dp"
             android:text="@string/user"
-            android:textSize="30sp"
+            android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.15"
             app:layout_constraintStart_toStartOf="parent"
@@ -25,71 +25,67 @@
             android:id="@+id/password_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:text="@string/password"
-            android:textSize="30sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.15"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/account_text" />
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="@+id/account_text"
+            app:layout_constraintTop_toBottomOf="@+id/account_input" />
 
         <Button
             android:id="@+id/login_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginBottom="32dp"
+            android:layout_marginTop="24dp"
             android:text="@string/login"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.75"
+            app:layout_constraintHorizontal_bias="0.84"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/password_text" />
+            app:layout_constraintTop_toBottomOf="@+id/password_input" />
 
         <Button
             android:id="@+id/register_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginBottom="32dp"
+            android:layout_marginTop="24dp"
             android:text="@string/register"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.25"
+            app:layout_constraintHorizontal_bias="0.16"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/password_text" />
+            app:layout_constraintTop_toBottomOf="@+id/password_input" />
 
         <EditText
             android:id="@+id/account_input"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="48dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="8dp"
             android:ems="10"
             android:hint="輸入帳號"
             android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.2"
-            app:layout_constraintStart_toEndOf="@+id/account_text"
-            app:layout_constraintTop_toTopOf="@+id/account_text" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/account_text" />
 
         <EditText
             android:id="@+id/password_input"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="48dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="8dp"
             android:ems="10"
             android:hint="輸入密碼"
             android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.2"
-            app:layout_constraintStart_toEndOf="@+id/password_text"
-            app:layout_constraintTop_toTopOf="@+id/password_text" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/password_text" />
 
 
     </android.support.constraint.ConstraintLayout>

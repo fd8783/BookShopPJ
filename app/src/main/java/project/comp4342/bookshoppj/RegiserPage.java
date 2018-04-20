@@ -50,8 +50,8 @@ public class RegiserPage extends AppCompatActivity {
 
     private ImageView userPhoto;
     private Bitmap cropPhoto;
-    private EditText accountInput, passwordInput, contactInput, creditCardInput, addressInput;
-    private String accountText, passwordText, contactText, creditCardText, addressText;
+    private EditText accountInput, passwordInput, confirmPasswordInput, contactInput, creditCardInput, addressInput;
+    private String accountText, passwordText, confirmPasswordText, contactText, creditCardText, addressText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +68,7 @@ public class RegiserPage extends AppCompatActivity {
         userPhoto = findViewById(R.id.click_to_add_photo);
         accountInput = findViewById(R.id.account_input);
         passwordInput = findViewById(R.id.password_input);
+        confirmPasswordInput = findViewById(R.id.confirm_password_input);
         contactInput = findViewById(R.id.contact_input);
         creditCardInput = findViewById(R.id.credit_card_input);
         addressInput = findViewById(R.id.address_input);
@@ -133,6 +134,7 @@ public class RegiserPage extends AppCompatActivity {
 
         accountText = accountInput.getText().toString();
         passwordText = passwordInput.getText().toString();
+        confirmPasswordText = confirmPasswordInput.getText().toString();
         contactText = contactInput.getText().toString();
         creditCardText = creditCardInput.getText().toString();
         addressText = addressInput.getText().toString();
@@ -148,6 +150,9 @@ public class RegiserPage extends AppCompatActivity {
             return;
         } else if (passwordText.length() < 6){
             Toast.makeText(RegiserPage.this, "密碼長度須至少6位", Toast.LENGTH_LONG).show();
+            return;
+        } else if (!passwordText.equals(confirmPasswordText)){
+            Toast.makeText(RegiserPage.this, "兩次輸入密碼不一樣", Toast.LENGTH_LONG).show();
             return;
         } else if (contactText.equals("")){
             Toast.makeText(RegiserPage.this, "請輸入電話號碼", Toast.LENGTH_LONG).show();
@@ -172,7 +177,13 @@ public class RegiserPage extends AppCompatActivity {
         }
 
         if (!creditCardText.equals("")){
-            new addCreditCardNo(false).execute(accountText,creditCardText);
+            if (creditCardText.length() == 16){
+                new addCreditCardNo(false).execute(accountText,creditCardText);
+            }
+            else{
+                Toast.makeText(RegiserPage.this, "請輸入16位信用卡號碼", Toast.LENGTH_LONG).show();
+                return;
+            }
         }
 
         if (!addressText.equals("")){

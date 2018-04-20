@@ -50,7 +50,7 @@
         android:textSize="14sp"
         android:text="@string/price"
         android:singleLine="true"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/Green"
         android:textStyle="bold"
         android:layout_marginLeft="6dp"
         />

@@ -66,9 +66,9 @@ public class BookInfoShortAdapter extends RecyclerView.Adapter<BookInfoShortAdap
             public void onClick(View v) {
                 if (!PageAdapter.eventDescriptionOpened) {
                     PageAdapter.eventDescriptionOpened = true;
-                    final Intent intent = new Intent(v.getContext(), EventContext.class);
+                    final Intent intent = new Intent(v.getContext(), BookContext.class);
                     Bundle bundle = new Bundle();
-                    bundle.putString("ImgURL", imgURLList.get(position));
+                    bundle.putString("bookID", IDList.get(position));
                     intent.putExtras(bundle);
                     v.getContext().startActivity(intent);
                 }
@@ -79,7 +79,7 @@ public class BookInfoShortAdapter extends RecyclerView.Adapter<BookInfoShortAdap
 
     @Override
     public int getItemCount() {
-        return imgURLList.size();
+        return IDList.size();
     }
 
 

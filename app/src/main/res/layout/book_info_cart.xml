@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:focusable="true"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    >
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            android:id="@+id/include"
+            layout="@layout/book_info_short"
+            />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimaryDark"
+            app:layout_constraintLeft_toRightOf="@+id/include"/>
+
+        <TextView
+            android:id="@+id/stock_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:text="@string/stock"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@+id/include"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/amount_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/amount"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/stock_text"
+            app:layout_constraintTop_toBottomOf="@+id/stock_text" />
+
+
+        <EditText
+            android:id="@+id/amount_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="輸入訂購數量"
+            android:inputType="numberSigned"
+            android:text="1"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/amount_text"
+            app:layout_constraintStart_toEndOf="@+id/amount_text"
+            app:layout_constraintTop_toTopOf="@+id/amount_text" />
+
+        <TextView
+            android:id="@+id/small_count_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginRight="30dp"
+            android:text="@string/small_count"
+            android:textColor="@color/Green"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/delete_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@color/OrangeRed"
+        android:src="@drawable/ic_delete_forever_black_24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+</android.support.constraint.ConstraintLayout>

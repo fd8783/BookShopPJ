@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,10 +15,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.support.v7.widget.SearchView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -37,10 +41,14 @@ import java.util.List;
 public class SearchPage extends AppCompatActivity{
 
     public RecyclerView searchedBookView;
+    private FloatingActionButton shoppingCartFab;
 
     private Spinner resultReference, rankReference;
     private ArrayAdapter<CharSequence> resultReferenceList, rankReferenceList;
     private String searchContent = "", searchColumn = "", rankColumn = "";
+
+    private MenuItem searchBut;
+    private SearchView searchView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,16 +62,53 @@ public class SearchPage extends AppCompatActivity{
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        shoppingCartFab = (FloatingActionButton) findViewById(R.id.shopping_chart);
+        shoppingCartFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SearchPage.this, ShoppingCart.class);
+                startActivity(intent);
+            }
+        });
+
         searchedBookView = findViewById(R.id.show_searched_book);
 
         resultReference = findViewById(R.id.result_reference);
         resultReferenceList = ArrayAdapter.createFromResource(this, R.array.result_according_to_what, android.R.layout.simple_spinner_dropdown_item);
         resultReference.setAdapter(resultReferenceList);
+        resultReference.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Search(searchView.getQuery().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         rankReference = findViewById(R.id.rank_reference);
         rankReferenceList = ArrayAdapter.createFromResource(this, R.array.rank_according_to_what, android.R.layout.simple_spinner_dropdown_item);
         rankReference.setAdapter(rankReferenceList);
+        rankReference.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Search(searchView.getQuery().toString());
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //set up first search
+        Intent intent = getIntent();
+        rankColumn = intent.getStringExtra("choice");
+        if (!(rankColumn == null)){
+            rankReference.setSelection(rankReferenceList.getPosition(rankColumn));
+        }
     }
 
     @Override
@@ -104,8 +149,14 @@ public class SearchPage extends AppCompatActivity{
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.nav_drawer, menu);
-        MenuItem searchBut = menu.findItem(R.id.searching);
-        final SearchView searchView = (SearchView) searchBut.getActionView();
+        searchBut = menu.findItem(R.id.searching);
+        searchView = (SearchView) searchBut.getActionView();
+
+//        searchView.setOnSearchClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//            }
+//        });
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -115,14 +166,16 @@ public class SearchPage extends AppCompatActivity{
 //                bundle.putString("ImgURL",query);
 //                intent.putExtras(bundle);
 //                searchView.getContext().startActivity(intent);
-                searchColumn = getSearchColumnString(resultReferenceList.getItem(resultReference.getSelectedItemPosition()).toString());
-                rankColumn = getRankColumnString(rankReferenceList.getItem(rankReference.getSelectedItemPosition()).toString());
-                LoadSearchedBook(query, searchColumn, rankColumn);
+                Search(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+//                if(newText.length()==0){
+//                    Search(newText);
+//                }
+                Search(newText);
                 return false;
             }
         });
@@ -130,7 +183,13 @@ public class SearchPage extends AppCompatActivity{
         return true;
     }
 
-    public void LoadSearchedBook(String searchContent, String searchColumn, String rankColumn){
+    public void Search(String text){
+        searchColumn = getSearchColumnString(resultReferenceList.getItem(resultReference.getSelectedItemPosition()).toString());
+        rankColumn = getRankColumnString(rankReferenceList.getItem(rankReference.getSelectedItemPosition()).toString());
+        LoadSearchedBook(text, searchColumn, rankColumn);
+    }
+
+    private void LoadSearchedBook(String searchContent, String searchColumn, String rankColumn){
         //set up the RecyclerView first
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         searchedBookView.setLayoutManager(layoutManager);

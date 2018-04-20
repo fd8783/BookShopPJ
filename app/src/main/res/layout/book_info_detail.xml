@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    >
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/toolbarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/MyAppMainBar">
+
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:id="@+id/toolbar"
+            app:titleMarginStart="24dp"
+            app:title="@string/search"
+            ></android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="30dp"
+            >
+
+            <ImageView
+                android:id="@+id/bookImg_long"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:src="@drawable/ic_menu_camera"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="10dp"/>
+
+            <ProgressBar
+                android:id="@+id/imgLoadingBar"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/LightGrey"/>
+
+            <View
+                app:layout_constraintTop_toBottomOf="@+id/bookImg_long"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
+
+            <TextView
+                android:id="@+id/bookName_long"
+                android:layout_width="330dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="26dp"
+                android:text="@string/bookname"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.25"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bookImg_long" />
+
+            <TextView
+                android:id="@+id/bookAuthor_long"
+                android:layout_width="330dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/author"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/bookName_long"
+                app:layout_constraintTop_toBottomOf="@+id/bookName_long" />
+
+            <TextView
+                android:id="@+id/bookPublisher_long"
+                android:layout_width="330dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/publisher"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/bookAuthor_long"
+                app:layout_constraintTop_toBottomOf="@+id/bookAuthor_long" />
+
+            <View
+                app:layout_constraintTop_toBottomOf="@+id/bookPublisher_long"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
+
+            <TextView
+                android:id="@+id/bookPrice_long"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/Green"
+                android:textStyle="bold"
+                android:text="@string/price"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/bookPublisher_long"
+                app:layout_constraintTop_toBottomOf="@+id/bookPublisher_long" />
+
+            <TextView
+                android:id="@+id/bookRating_long"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rating"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/bookPrice_long" />
+
+            <TextView
+                android:id="@+id/yourRating_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/your_rating"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.25"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bookPrice_long" />
+
+            <Spinner
+                android:id="@+id/yourRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/yourRating_text"
+                app:layout_constraintStart_toEndOf="@+id/yourRating_text"
+                app:layout_constraintTop_toTopOf="@+id/yourRating_text"></Spinner>
+
+            <TextView
+                android:id="@+id/rate_success"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:text="@string/rate_success"
+                android:textColor="@color/Green"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@+id/yourRating"
+                app:layout_constraintTop_toTopOf="@+id/yourRating"
+                android:visibility="invisible"/>
+
+            <View
+                app:layout_constraintTop_toBottomOf="@+id/yourRating_text"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
+
+            <TextView
+                android:id="@+id/bookBrief"
+                android:layout_width="360dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@string/brief"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/bookPrice_long"
+                app:layout_constraintTop_toBottomOf="@+id/yourRating_text" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/add_to_shopping_chart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_add_shopping_cart_black_24dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/shopping_chart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_add_shopping_cart_black_24dp"
+        android:visibility="invisible"/>
+
+</android.support.design.widget.CoordinatorLayout>

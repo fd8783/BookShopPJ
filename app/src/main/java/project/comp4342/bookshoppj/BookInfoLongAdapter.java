@@ -23,7 +23,7 @@ import java.util.List;
 public class BookInfoLongAdapter extends RecyclerView.Adapter<BookInfoLongAdapter.ViewHolder>  {
 
     private Context context;
-    private String priceText = "", authorText = "", publisherText = "", ratingText;
+    private String priceText = "", authorText = "", publisherText = "", ratingText = "";
     private List<String> IDList, imgURLList, bookNameList, bookPriceList, bookAuthorList, bookPulisherList, bookRatingList;
 
     public BookInfoLongAdapter(Context context,List<String> IDList, List<String> imgURLList, List<String> bookNameList, List<String> bookPriceList, List<String> bookAuthorList, List<String> bookPulisherList, List<String> bookRatingList){
@@ -72,9 +72,9 @@ public class BookInfoLongAdapter extends RecyclerView.Adapter<BookInfoLongAdapte
             public void onClick(View v) {
                 if (!PageAdapter.eventDescriptionOpened) {
                     PageAdapter.eventDescriptionOpened = true;
-                    final Intent intent = new Intent(v.getContext(), EventContext.class);
+                    final Intent intent = new Intent(v.getContext(), BookContext.class);
                     Bundle bundle = new Bundle();
-                    bundle.putString("ImgURL", imgURLList.get(position));
+                    bundle.putString("bookID", IDList.get(position));
                     intent.putExtras(bundle);
                     v.getContext().startActivity(intent);
                 }
@@ -85,7 +85,7 @@ public class BookInfoLongAdapter extends RecyclerView.Adapter<BookInfoLongAdapte
 
     @Override
     public int getItemCount() {
-        return imgURLList.size();
+        return IDList.size();
     }
 
 
