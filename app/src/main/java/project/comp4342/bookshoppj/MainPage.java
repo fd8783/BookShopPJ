@@ -391,7 +391,7 @@ public class MainPage extends AppCompatActivity
         } else if (id == R.id.book_recommended) {
             SearchBookRecommend(MainPage.this);
         } else if (id == R.id.closest_shop) {
-
+            OpenMap(MainPage.this);
         } else if (id == R.id.setting) {
             if (isLogin){
                 Intent intent = new Intent(this, SettingPage.class);
@@ -483,6 +483,11 @@ public class MainPage extends AppCompatActivity
 
     public void OpenBrowseHistory(Context context){
         Intent intent = new Intent(context, BrowseHistory.class);
+        context.startActivity(intent);
+    }
+
+    public void OpenMap(Context context){
+        Intent intent = new Intent(context, MapsActivity.class);
         context.startActivity(intent);
     }
 

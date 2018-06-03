@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "954594015541",
+    "firebase_url": "https://bookshop-1527082545045.firebaseio.com",
+    "project_id": "bookshop-1527082545045",
+    "storage_bucket": "bookshop-1527082545045.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:954594015541:android:f0e6d7d3a52aba1f",
+        "android_client_info": {
+          "package_name": "project.comp4342.bookshoppj"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "954594015541-muf3m6i99is7ftfb48luj1mfl8nffuil.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "954594015541-muf3m6i99is7ftfb48luj1mfl8nffuil.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAl1m4pznhlFGfYkZ-nFOsOmO6IZiZ2f4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

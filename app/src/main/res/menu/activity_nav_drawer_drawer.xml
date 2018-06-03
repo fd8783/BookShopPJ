@@ -56,7 +56,7 @@
                 android:id="@+id/closest_shop"
                 android:icon="@drawable/ic_location_on_black_24dp"
                 android:title="@string/closest_shop"
-                android:visible="false"/>
+                android:visible="true"/>
             <item
                 android:id="@+id/setting"
                 android:icon="@drawable/ic_settings_black_24dp"

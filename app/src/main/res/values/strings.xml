@@ -104,5 +104,6 @@
     <string name="price">HK$&#160;</string>
     <string name="rating">評分:&#160;</string>
     <string name="brief">簡介:&#160;</string>
+    <string name="title_activity_maps">Map</string>
 
 </resources>

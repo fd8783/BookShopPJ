@@ -81,5 +81,12 @@ public class BookShopDatabase extends SQLiteOpenHelper{
         this.getWritableDatabase().execSQL("Delete from Shopping_Cart where bookID = "+bookID);
     }
 
+    public float GetPrice(String bookID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "Select bookPrice from Shopping_Cart where bookID = ?";
+        Cursor data = db.rawQuery(query, new String[] {bookID});
+
+        return data.getFloat(0);
+    }
 
 }
